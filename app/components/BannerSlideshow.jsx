@@ -24,13 +24,21 @@ const BannerSlideshow = () => {
   }, [images.length]);
 
   return (
-    <div style={{ width: '100vw', height: 'auto', overflow: 'hidden', position: 'relative', marginBottom: '50px', }}>
+    <div
+      style={{
+        width: '100vw',
+        height: '50vh',
+        overflow: 'hidden',
+        position: 'relative',
+        marginBottom: '50px',
+      }}
+    >
       <img
         src={images[currentIndex]}
         alt={`Slide ${currentIndex}`}
         style={{
           width: '100%',
-          height: 'auto',
+          height: '100%',
           objectFit: 'cover',
           position: 'absolute',
           top: 0,

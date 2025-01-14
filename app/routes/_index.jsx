@@ -67,6 +67,12 @@ export default function Homepage() {
     <div className="home">
       <BannerSlideshow />
       {/* <FeaturedCollection collection={data.featuredCollection} /> */}
+      <div
+        style={{margin: '2rem 0', padding: '1rem', backgroundColor: '#f9f9f9'}}
+      >
+        <h2>Featured</h2>
+        <ProductRow collectionHandle="featured" />
+      </div>
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
