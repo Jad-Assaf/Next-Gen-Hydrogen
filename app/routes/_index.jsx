@@ -67,7 +67,7 @@ function loadDeferredData({context}) {
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const {featuredCollection} = useLoaderData();
+  const data = useLoaderData();
   return (
     <div className="home">
       <BannerSlideshow />
@@ -75,7 +75,7 @@ export default function Homepage() {
       <div
         style={{margin: '2rem 0', padding: '1rem', backgroundColor: '#f9f9f9'}}
       >
-        <ProductRow collection={featuredCollection} />
+        <ProductRow collection={data.featuredCollection} />
       </div>
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
