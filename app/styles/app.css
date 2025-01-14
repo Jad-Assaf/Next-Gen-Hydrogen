@@ -166,6 +166,7 @@ button.reset:hover:not(:has(> *)) {
   position: sticky;
   top: 0;
   z-index: 1;
+  justify-content: space-between;
 }
 
 .header-menu-mobile-toggle {
@@ -186,8 +187,12 @@ button.reset:hover:not(:has(> *)) {
   @media (min-width: 45em) {
     display: flex;
     grid-gap: 1rem;
-    margin-left: 3rem;
   }
+}
+
+.header-logo{
+  width: 100px;
+  height: auto;
 }
 
 .header-menu-item {
@@ -198,7 +203,6 @@ button.reset:hover:not(:has(> *)) {
   align-items: center;
   display: flex;
   grid-gap: 1rem;
-  margin-left: auto;
 }
 
 /*
