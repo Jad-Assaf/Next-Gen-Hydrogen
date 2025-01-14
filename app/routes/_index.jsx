@@ -2,6 +2,7 @@ import {defer} from '@shopify/remix-oxygen';
 import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
+import BannerSlideshow from '~/components/BannerSlideshow';
 
 /**
  * @type {MetaFunction}
@@ -64,7 +65,8 @@ export default function Homepage() {
   const data = useLoaderData();
   return (
     <div className="home">
-      <FeaturedCollection collection={data.featuredCollection} />
+      <BannerSlideshow />
+      {/* <FeaturedCollection collection={data.featuredCollection} /> */}
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
   );
