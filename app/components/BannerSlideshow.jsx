@@ -9,21 +9,35 @@ const BannerSlideshow = () => {
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [fade, setFade] = useState(false);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      setFade(true); // Trigger fade-out
+      setTimeout(() => {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+        setFade(false); // Trigger fade-in
+      }, 500); // Match this duration to the CSS transition time
     }, 10000); // Change image every 10 seconds
 
     return () => clearInterval(interval); // Cleanup interval on component unmount
   }, [images.length]);
 
   return (
-    <div style={{width: '100vw', height: 'auto', overflow: 'hidden'}}>
+    <div style={{ width: '100vw', height: '50vh', overflow: 'hidden', position: 'relative' }}>
       <img
         src={images[currentIndex]}
         alt={`Slide ${currentIndex}`}
-        style={{width: '100%', height: 'auto', objectFit: 'cover'}}
+        style={{
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          transition: 'opacity 0.5s ease-in-out', // Smooth fade effect
+          opacity: fade ? 0 : 1, // Fade out or in
+        }}
       />
     </div>
   );

@@ -10,15 +10,18 @@ export function Header({header, isLoggedIn, cart, publicStoreDomain}) {
   const {shop, menu} = header;
   return (
     <header className="header">
-      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
-        <strong>{shop.name}</strong>
-      </NavLink>
       <HeaderMenu
         menu={menu}
         viewport="desktop"
         primaryDomainUrl={header.shop.primaryDomain.url}
         publicStoreDomain={publicStoreDomain}
       />
+      <NavLink prefetch="intent" to="/" style={activeLinkStyle} end>
+        <img
+          src="https://cdn.shopify.com/s/files/1/0887/6018/9225/files/01-png.png?v=1724174813"
+          alt="Next Gen Logo"
+        />
+      </NavLink>
       <HeaderCtas isLoggedIn={isLoggedIn} cart={cart} />
     </header>
   );
