@@ -1,27 +1,28 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {gql, useShop} from '@shopify/hydrogen';
+import {gql} from '@shopify/hydrogen';
 
 const ProductRow = ({collectionHandle}) => {
   const [products, setProducts] = useState([]);
   const rowRef = useRef(null);
   const startX = useRef(0);
   const scrollLeft = useRef(0);
-  const {storefront} = useShop();
 
+  // Fetch products from the collection using the storefront context
   useEffect(() => {
     const fetchProducts = async () => {
-      const {data} = await storefront.query(COLLECTION_QUERY, {
+      const response = await storefront.query(COLLECTION_QUERY, {
         variables: {handle: collectionHandle},
       });
 
-      if (data?.collection?.products?.edges) {
-        setProducts(data.collection.products.edges.slice(0, 10));
+      if (response?.data?.collection?.products?.edges) {
+        setProducts(response.data.collection.products.edges.slice(0, 10));
       }
     };
 
     fetchProducts();
-  }, [collectionHandle, storefront]);
+  }, [collectionHandle]);
 
+  // Swipe Handlers
   const handleTouchStart = (e) => {
     startX.current = e.touches[0].pageX;
     scrollLeft.current = rowRef.current.scrollLeft;
@@ -90,6 +91,7 @@ const ProductRow = ({collectionHandle}) => {
 
 export default ProductRow;
 
+// GraphQL query to fetch products from a collection
 const COLLECTION_QUERY = gql`
   query CollectionProducts($handle: String!) {
     collection(handle: $handle) {
