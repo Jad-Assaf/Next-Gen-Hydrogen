@@ -1,41 +1,42 @@
 import React, {useEffect, useState, useRef} from 'react';
-import {useShopQuery, gql} from '@shopify/hydrogen';
+import {gql, useShop} from '@shopify/hydrogen';
 
 const ProductRow = ({collectionHandle}) => {
   const [products, setProducts] = useState([]);
-  const rowRef = useRef(null); // Reference to the row for swipe functionality
-  const startX = useRef(0); // To track the starting X position of the swipe
-  const scrollLeft = useRef(0); // To track the initial scroll position
-
-  // Fetch products from the collection
-  const {data} = useShopQuery({
-    query: COLLECTION_QUERY,
-    variables: {handle: collectionHandle},
-  });
+  const rowRef = useRef(null);
+  const startX = useRef(0);
+  const scrollLeft = useRef(0);
+  const {storefront} = useShop();
 
   useEffect(() => {
-    if (data?.collection?.products?.edges) {
-      // Limit to 10 products
-      setProducts(data.collection.products.edges.slice(0, 10));
-    }
-  }, [data]);
+    const fetchProducts = async () => {
+      const {data} = await storefront.query(COLLECTION_QUERY, {
+        variables: {handle: collectionHandle},
+      });
 
-  // Swipe Handlers
+      if (data?.collection?.products?.edges) {
+        setProducts(data.collection.products.edges.slice(0, 10));
+      }
+    };
+
+    fetchProducts();
+  }, [collectionHandle, storefront]);
+
   const handleTouchStart = (e) => {
-    startX.current = e.touches[0].pageX; // Record the starting X position
-    scrollLeft.current = rowRef.current.scrollLeft; // Record the initial scroll position
+    startX.current = e.touches[0].pageX;
+    scrollLeft.current = rowRef.current.scrollLeft;
   };
 
   const handleTouchMove = (e) => {
     if (!startX.current) return;
-    const x = e.touches[0].pageX; // Current X position
-    const walk = startX.current - x; // Calculate the distance swiped
-    rowRef.current.scrollLeft = scrollLeft.current + walk; // Update the scroll position
+    const x = e.touches[0].pageX;
+    const walk = startX.current - x;
+    rowRef.current.scrollLeft = scrollLeft.current + walk;
   };
 
   const handleTouchEnd = () => {
-    startX.current = 0; // Reset the starting X position
-    scrollLeft.current = 0; // Reset the scroll position
+    startX.current = 0;
+    scrollLeft.current = 0;
   };
 
   return (
@@ -45,7 +46,7 @@ const ProductRow = ({collectionHandle}) => {
         display: 'flex',
         overflowX: 'auto',
         gap: '1rem',
-        scrollBehavior: 'smooth', // Smooth scrolling
+        scrollBehavior: 'smooth',
         padding: '1rem 0',
       }}
       onTouchStart={handleTouchStart}
@@ -89,7 +90,6 @@ const ProductRow = ({collectionHandle}) => {
 
 export default ProductRow;
 
-// GraphQL query to fetch products from a collection
 const COLLECTION_QUERY = gql`
   query CollectionProducts($handle: String!) {
     collection(handle: $handle) {
