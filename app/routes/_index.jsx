@@ -31,13 +31,17 @@ export async function loader(args) {
  * @param {LoaderFunctionArgs}
  */
 async function loadCriticalData({context}) {
-  const [{collections}] = await Promise.all([
-    context.storefront.query(FEATURED_COLLECTION_QUERY),
-    // Add other queries here, so that they are loaded in parallel
-  ]);
+  const collectionHandle = 'featured'; // Change this to a dynamic value if needed
+  const {collection} = await context.storefront.query(
+    FEATURED_COLLECTION_QUERY,
+    {
+      variables: {handle: collectionHandle},
+    },
+  );
+
 
   return {
-    featuredCollection: collections.nodes[0],
+    featuredCollection: collection,
   };
 }
 
@@ -63,7 +67,7 @@ function loadDeferredData({context}) {
 
 export default function Homepage() {
   /** @type {LoaderReturnData} */
-  const data = useLoaderData();
+  const {featuredCollection} = useLoaderData();
   return (
     <div className="home">
       <BannerSlideshow />
@@ -71,8 +75,7 @@ export default function Homepage() {
       <div
         style={{margin: '2rem 0', padding: '1rem', backgroundColor: '#f9f9f9'}}
       >
-        <h2>Featured</h2>
-        <ProductRow collectionHandle="featured" />
+        <ProductRow collection={featuredCollection} />
       </div>
       <RecommendedProducts products={data.recommendedProducts} />
     </div>
