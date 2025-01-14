@@ -3,6 +3,7 @@ import {Await, useLoaderData, Link} from '@remix-run/react';
 import {Suspense} from 'react';
 import {Image, Money} from '@shopify/hydrogen';
 import BannerSlideshow from '~/components/BannerSlideshow';
+import ProductRow from '~/components/ProductRow';
 
 /**
  * @type {MetaFunction}
