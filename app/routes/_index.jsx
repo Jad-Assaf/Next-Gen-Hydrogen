@@ -147,26 +147,30 @@ function RecommendedProducts({products}) {
 }
 
 const FEATURED_COLLECTION_QUERY = `#graphql
-  fragment FeaturedCollection on Collection {
-    id
-    title
-    image {
-      id
-      url
-      altText
-      width
-      height
-    }
-    handle
-  }
-  query FeaturedCollection($country: CountryCode, $language: LanguageCode)
-    @inContext(country: $country, language: $language) {
-    collections(first: 1, sortKey: UPDATED_AT, reverse: true) {
-      nodes {
-        ...FeaturedCollection
+  query CollectionProducts($handle: String!) {
+      collection(handle: $handle) {
+        title
+        products(first: 10) {
+          nodes {
+            id
+            title
+            handle
+            priceRange {
+              minVariantPrice {
+                amount
+                currencyCode
+              }
+            }
+            images(first: 1) {
+              nodes {
+                url
+                altText
+              }
+            }
+          }
+        }
       }
     }
-  }
 `;
 
 const RECOMMENDED_PRODUCTS_QUERY = `#graphql
