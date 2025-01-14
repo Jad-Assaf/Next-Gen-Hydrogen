@@ -353,6 +353,27 @@ button.reset:hover:not(:has(> *)) {
 * routes/__index
 * --------------------------------------------------
 */
+
+.product-row {
+  margin: 2rem 0;
+}
+
+.product-row-grid {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+}
+
+.product-card {
+  flex: 0 0 200px;
+  text-align: center;
+}
+
+.product-image {
+  width: 100%;
+  border-radius: 8px;
+}
+
 .featured-collection {
   display: block;
   margin-bottom: 2rem;
